@@ -24,6 +24,13 @@ svg{width:100%;height:auto;background:#f8faf9;border:1px solid var(--line);borde
 .part rect,.part ellipse,.part circle.f{fill:var(--pcb-l);stroke:var(--pcb);stroke-width:2}
 .part.on rect,.part.on ellipse,.part.on circle.f{fill:var(--cu-l);stroke:var(--cu)}
 .part .nb{fill:var(--pcb);stroke:none}
+.part .d,.part.on .d{fill:none;stroke:var(--pcb);stroke-width:1.5}
+.part .s,.part.on .s{fill:var(--pcb);stroke:none}
+.part .w,.part.on .w{fill:#fff;stroke:var(--pcb);stroke-width:1.2}
+.part .scr,.part.on .scr{fill:#e6f1f7;stroke:var(--pcb);stroke-width:1.5}
+.part .k,.part.on .k{fill:url(#keys);stroke:none}
+.part .m,.part.on .m{fill:url(#chips);stroke:none}
+.part text.lbl,.part.on text.lbl{fill:var(--pcb);font-size:9px}
 .part text{fill:#fff;font:700 13px system-ui,sans-serif;text-anchor:middle}
 .case{fill:none;stroke:var(--pcb);stroke-width:3}
 .row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:6px 8px;border-radius:6px;border:1px solid transparent}
@@ -61,21 +68,9 @@ button.sec{background:#fff;color:var(--pcb)}
 
 <section>
 <h2>Aufgabe 1: Bauteile zuordnen</h2>
-<p class="task">Die Zeichnung zeigt einen Computer mit geöffnetem Gehäuse. Wähle zu jeder Nummer den passenden Namen aus. Jeder Name passt genau einmal. Wenn du eine Zeile anklickst, leuchtet das Bauteil in der Zeichnung auf.</p>
+<p class="task">Die Abbildung zeigt einen Computer, dessen Bauteile auseinandergezogen sind. Wähle zu jeder Nummer den passenden Namen aus. Jeder Name passt genau einmal.</p>
 <div class="split">
-<svg viewBox="0 0 570 330" role="img" aria-label="Schematische Zeichnung eines Computers mit Monitor, Tastatur, Maus und geöffnetem Gehäuse; zehn Bauteile sind nummeriert.">
-<g class="part" id="p-monitor"><rect x="20" y="20" width="200" height="130" rx="8"/><rect x="34" y="34" width="172" height="100" rx="3" style="fill:#fff"/><rect x="100" y="150" width="40" height="14"/><rect x="75" y="164" width="90" height="8" rx="3"/><circle class="nb" cx="120" cy="84" r="13"/><text x="120" y="89">8</text></g>
-<g class="part" id="p-tastatur"><rect x="20" y="200" width="190" height="42" rx="6"/><circle class="nb" cx="115" cy="221" r="13"/><text x="115" y="226">9</text></g>
-<g class="part" id="p-maus"><ellipse cx="238" cy="221" rx="14" ry="22"/><circle class="nb" cx="238" cy="221" r="11"/><text x="238" y="225">10</text></g>
-<rect class="case" x="262" y="12" width="296" height="306" rx="10"/>
-<g class="part" id="p-laufwerk"><rect x="274" y="28" width="60" height="30"/><circle class="nb" cx="304" cy="43" r="11"/><text x="304" y="47">6</text></g>
-<g class="part" id="p-festplatte"><rect x="274" y="72" width="60" height="46"/><circle class="nb" cx="304" cy="95" r="11"/><text x="304" y="99">5</text></g>
-<g class="part" id="p-mainboard"><rect x="348" y="28" width="198" height="208"/><circle class="nb" cx="368" cy="216" r="11"/><text x="368" y="220">2</text></g>
-<g class="part" id="p-cpu"><rect x="372" y="60" width="48" height="48"/><circle class="nb" cx="396" cy="84" r="11"/><text x="396" y="88">3</text></g>
-<g class="part" id="p-ram"><rect x="446" y="58" width="9" height="80"/><rect x="460" y="58" width="9" height="80"/><rect x="474" y="58" width="9" height="80"/><rect x="488" y="58" width="9" height="80"/><circle class="nb" cx="471" cy="44" r="11"/><text x="471" y="48">4</text></g>
-<g class="part" id="p-karte"><rect x="372" y="170" width="150" height="16"/><circle class="nb" cx="447" cy="178" r="11"/><text x="447" y="182">7</text></g>
-<g class="part" id="p-netzteil"><rect x="348" y="250" width="198" height="56"/><circle class="f" cx="505" cy="278" r="20"/><circle class="nb" cx="388" cy="278" r="11"/><text x="388" y="282">1</text></g>
-</svg>
+<figure style="margin:0"><img src="Personal_computer,_exploded.svg" onerror="this.onerror=null;this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Personal_computer,_exploded.svg'" alt="Explosionszeichnung eines PCs mit nummerierten Bauteilen" style="width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:6px"><figcaption class="hint">Abbildung: Gustavb, „Personal computer, exploded.svg“, <a href="https://commons.wikimedia.org/wiki/File:Personal_computer,_exploded.svg">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.de">CC BY-SA 3.0</a></figcaption></figure>
 <div>
 <div id="zuordnung"></div>
 <button type="button" id="check1">Zuordnung prüfen</button>
@@ -101,23 +96,25 @@ button.sec{background:#fff;color:var(--pcb)}
 <textarea rows="4" aria-label="Begründung zu Aufgabe 3"></textarea>
 </section>
 
-<button type="button" class="sec" onclick="window.print()">Arbeitsblatt drucken / als PDF speichern</button>
-<p class="hint noprint">Tipp: Im Druckdialog „Als PDF speichern“ wählen, um dein Ergebnis abzugeben.</p>
+<button type="button" class="sec" onclick="speichern()">Ergebnis speichern (PDF)</button>
+<p class="hint noprint">Es öffnet sich der Druckdialog: Dort als Drucker „Als PDF speichern“ wählen.</p>
 </main>
 
 <script>
 const C=[
-{id:'netzteil',num:1,n:'Netzteil',key:'versorgt alle Bauteile mit Strom; muss zum Gehäuse und zur Leistung der Bauteile passen'},
+{id:'netzteil',num:6,n:'Netzteil',key:'versorgt alle Bauteile mit Strom; muss zum Gehäuse und zur Leistung der Bauteile passen'},
 {id:'mainboard',num:2,n:'Mainboard (Hauptplatine)',key:'Platine, auf der die wichtigsten Bauteile (CPU, Arbeitsspeicher, Steckkarten) sitzen; verbindet alles miteinander (Bus); Festplatte, Laufwerke und weitere Geräte werden angeschlossen'},
 {id:'cpu',num:3,n:'CPU (Prozessor)',key:'„Gehirn“ des Computers; führt die Rechenoperationen aus und steuert die anderen Bauteile; Leistung wird in Hertz angegeben'},
 {id:'ram',num:4,n:'Arbeitsspeicher (RAM)',key:'speichert Daten und Programme, mit denen der Computer gerade arbeitet (zwischenspeichern während der Laufzeit); ohne ihn läuft der Computer nicht; viel RAM hilft bei Spielen, Foto- und Videobearbeitung'},
-{id:'festplatte',num:5,n:'Festplatte',key:'speichert Daten dauerhaft: Betriebssystem, Programme und persönliche Dateien; mindestens eine ist nötig'},
-{id:'laufwerk',num:6,n:'Optisches Laufwerk',key:'liest (und brennt) DVDs/Blu-rays; nützlich zum Installieren des Betriebssystems oder für Sicherungskopien; nicht unbedingt nötig'},
-{id:'karte',num:7,n:'PCI-Steckplatz mit Grafik-/Soundkarte',key:'Steckplatz für Erweiterungskarten; Grafik- oder Soundkarte liefern bessere Bild- bzw. Tonqualität als die eingebauten Chips; meist nicht zwingend nötig'},
-{id:'monitor',num:8,n:'Monitor',key:'Ausgabegerät; zeigt die Informationen des Computers grafisch an'},
-{id:'tastatur',num:9,n:'Tastatur',key:'Eingabegerät; hiermit gibt man Text und Befehle ein und steuert Programme'},
-{id:'maus',num:10,n:'Maus',key:'Eingabegerät; hiermit zeigt man auf Dinge, klickt und steuert Programme'}
+{id:'festplatte',num:8,n:'Festplatte',key:'speichert Daten dauerhaft: Betriebssystem, Programme und persönliche Dateien; mindestens eine ist nötig'},
+{id:'laufwerk',num:7,n:'Optisches Laufwerk',key:'liest (und brennt) DVDs/Blu-rays; nützlich zum Installieren des Betriebssystems oder für Sicherungskopien; nicht unbedingt nötig'},
+{id:'karte',num:5,n:'PCI-Steckplatz mit Grafik-/Soundkarte',key:'Steckplatz für Erweiterungskarten; Grafik- oder Soundkarte liefern bessere Bild- bzw. Tonqualität als die eingebauten Chips; meist nicht zwingend nötig'},
+{id:'monitor',num:1,n:'Monitor',key:'Ausgabegerät; zeigt die Informationen des Computers grafisch an'},
+{id:'tastatur',num:10,n:'Tastatur',key:'Eingabegerät; hiermit gibt man Text und Befehle ein und steuert Programme'},
+{id:'maus',num:9,n:'Maus',key:'Eingabegerät; hiermit zeigt man auf Dinge, klickt und steuert Programme'}
 ];
+// Lehrkraft: Die Nummern (num) müssen zur Nummerierung in der Abbildung passen – hier bei Bedarf ändern.
+C.sort((a,b)=>a.num-b.num);
 const need=['mainboard','cpu','ram','netzteil','festplatte'];
 const $=s=>document.querySelector(s);
 const names=[...C].sort((a,b)=>a.n.localeCompare(b.n,'de'));
@@ -128,9 +125,6 @@ C.forEach(c=>{
   const row=document.createElement('div');row.className='row';row.dataset.id=c.id;
   row.innerHTML=`<span class="badge">${c.num}</span><select aria-label="Name für Nummer ${c.num}"><option value="">– bitte wählen –</option>${names.map(m=>`<option value="${m.id}">${m.n}</option>`).join('')}</select><span class="mark"></span>`;
   list.append(row);
-  const hi=on=>document.getElementById('p-'+c.id).classList.toggle('on',on);
-  row.addEventListener('focusin',()=>hi(true));row.addEventListener('focusout',()=>hi(false));
-  row.addEventListener('mouseenter',()=>hi(true));row.addEventListener('mouseleave',()=>hi(false));
 });
 $('#check1').onclick=()=>{
   let ok=0,dup=false;const seen={};
@@ -169,6 +163,11 @@ $('#check3').onclick=()=>{
   });
   $('#res3').textContent=ok+' von 10 Bauteilen richtig eingeordnet.'+(ok===10?' Genau diese fünf bilden die Mindestausstattung.':' Grün ist richtig, rot noch nicht. Überlege: Ohne welche Bauteile kann der Computer weder rechnen, Daten halten noch Strom bekommen?');
 };
+function speichern(){
+  const alt=document.title,n=$('#name').value.trim();
+  document.title='Computerbauteile'+(n?' - '+n:'');
+  window.print();document.title=alt;
+}
 </script>
 </body>
 </html>
