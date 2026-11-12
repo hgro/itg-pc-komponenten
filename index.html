@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wie ist ein Computer aufgebaut?</title>
+<style>
+:root{--pcb:#0f5c4d;--pcb-l:#dfe9e4;--cu:#b8742a;--cu-l:#f5dcb8;--ink:#1c2321;--mut:#55615d;--bg:#eef1f0;--card:#fff;--ok:#1b6e3a;--bad:#a12626;--line:#c5d0cc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--pcb);color:#fff;padding:28px 20px 22px}
+header>div,main{max-width:1000px;margin:0 auto}
+h1{margin:0 0 6px;font-size:1.9rem;line-height:1.2}
+header p{margin:0;max-width:62ch;color:#d4e6e0}
+.who{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.who input{padding:8px 10px;border:0;border-radius:6px;font:inherit;min-width:190px}
+main{padding:20px}
+section{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--cu);border-radius:8px;padding:20px 22px;margin:0 0 22px}
+h2{margin:0 0 6px;font-size:1.3rem}
+h3{margin:0 0 6px;font-size:1.02rem}
+.task{margin:0 0 14px;max-width:70ch}
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+svg{width:100%;height:auto;background:#f8faf9;border:1px solid var(--line);border-radius:6px}
+.part rect,.part ellipse,.part circle.f{fill:var(--pcb-l);stroke:var(--pcb);stroke-width:2}
+.part.on rect,.part.on ellipse,.part.on circle.f{fill:var(--cu-l);stroke:var(--cu)}
+.part .nb{fill:var(--pcb);stroke:none}
+.part text{fill:#fff;font:700 13px system-ui,sans-serif;text-anchor:middle}
+.case{fill:none;stroke:var(--pcb);stroke-width:3}
+.row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:6px 8px;border-radius:6px;border:1px solid transparent}
+.row.ok{background:#e6f3ea;border-color:var(--ok)}
+.row.bad{background:#f9e8e8;border-color:var(--bad)}
+.badge{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--pcb);color:#fff;font-weight:700}
+select,textarea{width:100%;padding:8px 10px;border:1px solid #8a9792;border-radius:6px;font:inherit;background:#fff;color:inherit}
+textarea{resize:vertical}
+.mark{font-size:.9rem;font-weight:600;min-width:9.5em}
+.ok .mark{color:var(--ok)}.bad .mark{color:var(--bad)}
+button{font:inherit;font-weight:600;padding:9px 16px;border-radius:6px;border:2px solid var(--pcb);background:var(--pcb);color:#fff;cursor:pointer;margin-top:12px}
+button:disabled{background:#e3e8e6;border-color:#c1cbc7;color:#7a8682;cursor:not-allowed}
+button.sec{background:#fff;color:var(--pcb)}
+:focus-visible{outline:3px solid var(--cu);outline-offset:2px}
+.res{margin:10px 0 0;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fbfcfc}
+.card button{margin-top:8px;padding:7px 12px;font-size:.92rem}
+.key{margin:10px 0 0;padding:8px 10px;background:var(--cu-l);border-radius:6px;font-size:.93rem}
+.checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 16px;margin:8px 0}
+.checks label{display:flex;gap:8px;align-items:center;padding:4px 6px;border-radius:6px}
+.checks label.ok{background:#e6f3ea}.checks label.bad{background:#f9e8e8}
+.hint{color:var(--mut);font-size:.92rem}
+@media(max-width:780px){.split{grid-template-columns:1fr}.row{grid-template-columns:34px 1fr}.mark{grid-column:2}}
+@media print{header{background:none;color:#000;padding:0}header p{color:#000}button,.hint.noprint{display:none}section{break-inside:avoid;border-left-width:3px}body{background:#fff}}
+</style>
+</head>
+<body>
+<header><div>
+<h1>Wie ist ein Computer aufgebaut?</h1>
+<p>Jeder Computer besteht aus Bauteilen, die zusammenarbeiten. In diesem Arbeitsblatt lernst du die wichtigsten kennen: Du ordnest sie zu und erklärst sie mit eigenen Worten.</p>
+<div class="who"><input id="name" placeholder="Name" aria-label="Name"><input id="klasse" placeholder="Klasse" aria-label="Klasse"></div>
+</div></header>
+<main>
+
+<section>
+<h2>Aufgabe 1: Bauteile zuordnen</h2>
+<p class="task">Die Zeichnung zeigt einen Computer mit geöffnetem Gehäuse. Wähle zu jeder Nummer den passenden Namen aus. Jeder Name passt genau einmal. Wenn du eine Zeile anklickst, leuchtet das Bauteil in der Zeichnung auf.</p>
+<div class="split">
+<svg viewBox="0 0 570 330" role="img" aria-label="Schematische Zeichnung eines Computers mit Monitor, Tastatur, Maus und geöffnetem Gehäuse; zehn Bauteile sind nummeriert.">
+<g class="part" id="p-monitor"><rect x="20" y="20" width="200" height="130" rx="8"/><rect x="34" y="34" width="172" height="100" rx="3" style="fill:#fff"/><rect x="100" y="150" width="40" height="14"/><rect x="75" y="164" width="90" height="8" rx="3"/><circle class="nb" cx="120" cy="84" r="13"/><text x="120" y="89">8</text></g>
+<g class="part" id="p-tastatur"><rect x="20" y="200" width="190" height="42" rx="6"/><circle class="nb" cx="115" cy="221" r="13"/><text x="115" y="226">9</text></g>
+<g class="part" id="p-maus"><ellipse cx="238" cy="221" rx="14" ry="22"/><circle class="nb" cx="238" cy="221" r="11"/><text x="238" y="225">10</text></g>
+<rect class="case" x="262" y="12" width="296" height="306" rx="10"/>
+<g class="part" id="p-laufwerk"><rect x="274" y="28" width="60" height="30"/><circle class="nb" cx="304" cy="43" r="11"/><text x="304" y="47">6</text></g>
+<g class="part" id="p-festplatte"><rect x="274" y="72" width="60" height="46"/><circle class="nb" cx="304" cy="95" r="11"/><text x="304" y="99">5</text></g>
+<g class="part" id="p-mainboard"><rect x="348" y="28" width="198" height="208"/><circle class="nb" cx="368" cy="216" r="11"/><text x="368" y="220">2</text></g>
+<g class="part" id="p-cpu"><rect x="372" y="60" width="48" height="48"/><circle class="nb" cx="396" cy="84" r="11"/><text x="396" y="88">3</text></g>
+<g class="part" id="p-ram"><rect x="446" y="58" width="9" height="80"/><rect x="460" y="58" width="9" height="80"/><rect x="474" y="58" width="9" height="80"/><rect x="488" y="58" width="9" height="80"/><circle class="nb" cx="471" cy="44" r="11"/><text x="471" y="48">4</text></g>
+<g class="part" id="p-karte"><rect x="372" y="170" width="150" height="16"/><circle class="nb" cx="447" cy="178" r="11"/><text x="447" y="182">7</text></g>
+<g class="part" id="p-netzteil"><rect x="348" y="250" width="198" height="56"/><circle class="f" cx="505" cy="278" r="20"/><circle class="nb" cx="388" cy="278" r="11"/><text x="388" y="282">1</text></g>
+</svg>
+<div>
+<div id="zuordnung"></div>
+<button type="button" id="check1">Zuordnung prüfen</button>
+<p class="res" id="res1" aria-live="polite"></p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Aufgabe 2: Mit eigenen Worten beschreiben</h2>
+<p class="task">Beschreibe jedes Bauteil in zwei bis drei Sätzen. Schreibe nicht ab, sondern erkläre es so, dass es ein Mitschüler versteht. Hilfsfragen: Wofür wird das Bauteil gebraucht? Was würde passieren, wenn es fehlt? Wenn du mindestens 25 Zeichen geschrieben hast, kannst du deine Antwort mit Stichpunkten vergleichen und sie bei Bedarf ergänzen.</p>
+<div class="grid" id="beschr"></div>
+</section>
+
+<section>
+<h2>Aufgabe 3: Was braucht ein Computer mindestens?</h2>
+<p class="task">Ein Computer kann bereits starten, wenn nur ein Teil der Bauteile eingebaut ist. Kreuze an, welche Bauteile dafür mindestens nötig sind.</p>
+<div class="checks" id="mini"></div>
+<button type="button" id="check3">Auswahl prüfen</button>
+<p class="res" id="res3" aria-live="polite"></p>
+<h3 style="margin-top:16px">Begründe</h3>
+<p class="task">Mit dieser Mindestausstattung kann man noch nichts eingeben und nichts ablesen. Erkläre, welche Bauteile für Eingabe und Ausgabe fehlen und wozu sie dienen.</p>
+<textarea rows="4" aria-label="Begründung zu Aufgabe 3"></textarea>
+</section>
+
+<button type="button" class="sec" onclick="window.print()">Arbeitsblatt drucken / als PDF speichern</button>
+<p class="hint noprint">Tipp: Im Druckdialog „Als PDF speichern“ wählen, um dein Ergebnis abzugeben.</p>
+</main>
+
+<script>
+const C=[
+{id:'netzteil',num:1,n:'Netzteil',key:'versorgt alle Bauteile mit Strom; muss zum Gehäuse und zur Leistung der Bauteile passen'},
+{id:'mainboard',num:2,n:'Mainboard (Hauptplatine)',key:'Platine, auf der die wichtigsten Bauteile (CPU, Arbeitsspeicher, Steckkarten) sitzen; verbindet alles miteinander (Bus); Festplatte, Laufwerke und weitere Geräte werden angeschlossen'},
+{id:'cpu',num:3,n:'CPU (Prozessor)',key:'„Gehirn“ des Computers; führt die Rechenoperationen aus und steuert die anderen Bauteile; Leistung wird in Hertz angegeben'},
+{id:'ram',num:4,n:'Arbeitsspeicher (RAM)',key:'speichert Daten und Programme, mit denen der Computer gerade arbeitet (zwischenspeichern während der Laufzeit); ohne ihn läuft der Computer nicht; viel RAM hilft bei Spielen, Foto- und Videobearbeitung'},
+{id:'festplatte',num:5,n:'Festplatte',key:'speichert Daten dauerhaft: Betriebssystem, Programme und persönliche Dateien; mindestens eine ist nötig'},
+{id:'laufwerk',num:6,n:'Optisches Laufwerk',key:'liest (und brennt) DVDs/Blu-rays; nützlich zum Installieren des Betriebssystems oder für Sicherungskopien; nicht unbedingt nötig'},
+{id:'karte',num:7,n:'PCI-Steckplatz mit Grafik-/Soundkarte',key:'Steckplatz für Erweiterungskarten; Grafik- oder Soundkarte liefern bessere Bild- bzw. Tonqualität als die eingebauten Chips; meist nicht zwingend nötig'},
+{id:'monitor',num:8,n:'Monitor',key:'Ausgabegerät; zeigt die Informationen des Computers grafisch an'},
+{id:'tastatur',num:9,n:'Tastatur',key:'Eingabegerät; hiermit gibt man Text und Befehle ein und steuert Programme'},
+{id:'maus',num:10,n:'Maus',key:'Eingabegerät; hiermit zeigt man auf Dinge, klickt und steuert Programme'}
+];
+const need=['mainboard','cpu','ram','netzteil','festplatte'];
+const $=s=>document.querySelector(s);
+const names=[...C].sort((a,b)=>a.n.localeCompare(b.n,'de'));
+
+// Aufgabe 1
+const list=$('#zuordnung');
+C.forEach(c=>{
+  const row=document.createElement('div');row.className='row';row.dataset.id=c.id;
+  row.innerHTML=`<span class="badge">${c.num}</span><select aria-label="Name für Nummer ${c.num}"><option value="">– bitte wählen –</option>${names.map(m=>`<option value="${m.id}">${m.n}</option>`).join('')}</select><span class="mark"></span>`;
+  list.append(row);
+  const hi=on=>document.getElementById('p-'+c.id).classList.toggle('on',on);
+  row.addEventListener('focusin',()=>hi(true));row.addEventListener('focusout',()=>hi(false));
+  row.addEventListener('mouseenter',()=>hi(true));row.addEventListener('mouseleave',()=>hi(false));
+});
+$('#check1').onclick=()=>{
+  let ok=0,dup=false;const seen={};
+  list.querySelectorAll('.row').forEach(r=>{
+    const v=r.querySelector('select').value,m=r.querySelector('.mark');
+    if(v){if(seen[v])dup=true;seen[v]=1}
+    r.classList.remove('ok','bad');
+    if(v===r.dataset.id){r.classList.add('ok');m.textContent='✓ richtig';ok++}
+    else{r.classList.add('bad');m.textContent=v?'✗ noch nicht richtig':'✗ fehlt noch'}
+  });
+  $('#res1').textContent=ok+' von 10 richtig.'+(dup?' Ein Name wurde mehrfach verwendet.':'')+(ok===10?' Sehr gut, weiter mit Aufgabe 2!':' Verbessere die markierten Zeilen und prüfe erneut.');
+};
+
+// Aufgabe 2
+names.forEach(c=>{
+  const d=document.createElement('div');d.className='card';
+  d.innerHTML=`<h3>${c.n}</h3><textarea rows="4" aria-label="Beschreibung: ${c.n}" placeholder="Wofür wird dieses Bauteil gebraucht?"></textarea><button type="button" disabled>Mit Stichpunkten vergleichen</button><p class="key" hidden><b>Das sollte vorkommen:</b> ${c.key}</p>`;
+  const t=d.querySelector('textarea'),b=d.querySelector('button');
+  t.oninput=()=>{b.disabled=t.value.trim().length<25};
+  b.onclick=()=>{d.querySelector('.key').hidden=false};
+  $('#beschr').append(d);
+});
+
+// Aufgabe 3
+names.forEach(c=>{
+  const l=document.createElement('label');l.dataset.id=c.id;
+  l.innerHTML=`<input type="checkbox" value="${c.id}"> ${c.n}`;
+  $('#mini').append(l);
+});
+$('#check3').onclick=()=>{
+  let ok=0;
+  document.querySelectorAll('#mini label').forEach(l=>{
+    const right=l.querySelector('input').checked===need.includes(l.dataset.id);
+    l.classList.remove('ok','bad');l.classList.add(right?'ok':'bad');
+    if(right)ok++;
+  });
+  $('#res3').textContent=ok+' von 10 Bauteilen richtig eingeordnet.'+(ok===10?' Genau diese fünf bilden die Mindestausstattung.':' Grün ist richtig, rot noch nicht. Überlege: Ohne welche Bauteile kann der Computer weder rechnen, Daten halten noch Strom bekommen?');
+};
+</script>
+</body>
+</html>
